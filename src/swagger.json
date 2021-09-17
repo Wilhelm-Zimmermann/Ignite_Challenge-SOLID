@@ -1,0 +1,159 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Users Info",
+        "description": "This is an api which you can create new users and list It",
+        "version": "1.0.0",
+        "contact": {
+            "email": "wilhelmzimmermann8@gmail.com"
+        }
+    },
+    "paths": {
+        "/users": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Create a new User",
+                "description": "Create a new user with {name and email}",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "name": "Joseph Joestar",
+                                    "email": "joseph@gmail.com"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User created Succesfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Cannot create a new user with the same email"
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "List ALl Users",
+                "description": "List all users created",
+                "responses": {
+                    "200": {
+                        "description": "Succes on get ALl users",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "email": {
+                                                "type": "string"
+                                            },
+                                            "admin": {
+                                                "type": "boolean"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Only admins can list users"
+                    }
+                }
+            }
+        },
+        "/users/{user_id}":{
+            "get":{
+                "tags":["Users"],
+                "summary":"Get a specified user by id",
+                "description":"Get a user per id",
+                "parameters":[
+                    {
+                    "in":"path",
+                    "name":"user_id",
+                    "schema":{
+                        "type":"string"
+                    }
+                }],
+                "responses":{
+                    "200":{
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "name":{"type":"string"},
+                                        "email":{"type":"string"},
+                                        "admin":{"type":"boolean"}
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"The id is invalid"
+                    }
+                }
+            }
+        },
+        "/users/{user_id}/admin":{
+            "patch":{
+                "tags":["Users"],
+                "summary":"Update admin to true using user id",
+                "description":"The user which has this id the admin will set to true",
+                "parameters":[
+                    {
+                    "in":"path",
+                    "name":"user_id",
+                    "schema":{
+                        "type":"string"
+                    }
+                }],
+                "responses":{
+                    "200":{
+                        "description":"Admin SET to TRUE, BE CAREFULLLLLLLL"
+                    },
+                    "400":{
+                        "description":"This user does not exists on database"
+                    }
+                }
+            }
+        }
+    }
+}
